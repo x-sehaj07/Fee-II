@@ -1,6 +1,7 @@
 import ProductCard from "./ProductCard";
 import Counter from "./Counter";
 
+
 function App() {
   const products = [
     {
@@ -38,6 +39,7 @@ function App() {
 
       ))}
       {<Counter/>}
+      
     </div>
     
   );
