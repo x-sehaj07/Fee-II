@@ -6,7 +6,7 @@ function Counter(){
     const [name, setName] = useState("aman");
     const [theme,setTheme]=useState("light");
     const [student,setStudent]=useState({name:"Sam",age:19});
-    const [fruit,setFruit]=useState()
+    const [fruit,setFruit]=useState(["apple","mango","orange"])
     function handleClick(){
         setcount(prev=> prev+1);
         setcount(prev=> prev+1);

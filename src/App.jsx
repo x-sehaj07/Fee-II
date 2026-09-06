@@ -1,6 +1,8 @@
 import ProductCard from "./ProductCard";
 import Counter from "./Counter";
-
+import FormHandling from "./FormHandling";
+import Hooks from "./Hooks";
+import Useref from "./Useref";
 
 function App() {
   const products = [
@@ -38,8 +40,16 @@ function App() {
         />
 
       ))}
+      {
+        products.filter((product)=>product.price>=80000).map((product)=>{
+          return <p>{product.name}</p>
+        })
+      }
+
+      {<FormHandling/>}
       {<Counter/>}
       
+      {<Useref/>}
     </div>
     
   );
