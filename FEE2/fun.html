@@ -1,0 +1,131 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Floating CSS Crystal</title>
+  <style>
+    /* Reset and Center Everything */
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: radial-gradient(circle at center, #1a153a 0%, #070514 100%);
+      overflow: hidden;
+      perspective: 1000px;
+    }
+
+    /* Container for the 3D space */
+    .scene {
+      width: 200px;
+      height: 300px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* The Crystal Object */
+    .crystal {
+      position: relative;
+      width: 100px;
+      height: 200px;
+      transform-style: preserve-3d;
+      animation: float 4s ease-in-out infinite, spin 20s linear infinite;
+      cursor: pointer;
+      transition: animation-play-state 0.3s ease;
+    }
+
+    /* Speed up and glow on hover */
+    .crystal:hover {
+      animation: float 2s ease-in-out infinite, spin 5s linear infinite;
+    }
+
+    /* Individual Faces Base Style */
+    .face {
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-left: 50px solid transparent;
+      border-right: 50px solid transparent;
+      opacity: 0.85;
+      transform-origin: 50% 100%;
+    }
+
+    /* Top Pyramid Faces */
+    .top {
+      border-bottom: 120px solid #00f2ff;
+      top: 0;
+      filter: drop-shadow(0 0 20px rgba(0, 242, 255, 0.6));
+    }
+    .t1 { transform: rotateY(0deg) translateZ(0px) rotateX(30deg); border-bottom-color: #00f2ff; }
+    .t2 { transform: rotateY(90deg) translateZ(0px) rotateX(30deg); border-bottom-color: #00b3ff; }
+    .t3 { transform: rotateY(180deg) translateZ(0px) rotateX(30deg); border-bottom-color: #0077ff; }
+    .t4 { transform: rotateY(270deg) translateZ(0px) rotateX(30deg); border-bottom-color: #00b3ff; }
+
+    /* Bottom Pyramid Faces (Inverted) */
+    .bottom {
+      border-top: 120px solid #7000ff;
+      top: 108px; /* Slightly offset to seamless snap with top */
+      transform-origin: 50% 0%;
+      filter: drop-shadow(0 0 20px rgba(112, 0, 255, 0.6));
+    }
+    .b1 { transform: rotateY(0deg) translateZ(0px) rotateX(-30deg); border-top-color: #7000ff; }
+    .b2 { transform: rotateY(90deg) translateZ(0px) rotateX(-30deg); border-top-color: #9d00ff; }
+    .b3 { transform: rotateY(180deg) translateZ(0px) rotateX(-30deg); border-top-color: #420099; }
+    .b4 { transform: rotateY(270deg) translateZ(0px) rotateX(-30deg); border-top-color: #9d00ff; }
+
+    /* Glowing Floor Shadow */
+    .shadow {
+      position: absolute;
+      width: 120px;
+      height: 40px;
+      background: radial-gradient(ellipse at center, rgba(0, 242, 255, 0.4) 0%, rgba(0,0,0,0) 70%);
+      bottom: 100px;
+      border-radius: 50%;
+      transform: rotateX(75deg);
+      animation: shadow-pulse 4s ease-in-out infinite;
+    }
+
+    /* Core Animations */
+    @keyframes spin {
+      0% { transform: rotateY(0deg) rotateX(15deg); }
+      100% { transform: rotateY(360deg) rotateX(15deg); }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-25px); }
+    }
+
+    @keyframes shadow-pulse {
+      0%, 100% { transform: rotateX(75deg) scale(1); opacity: 0.8; }
+      50% { transform: rotateX(75deg) scale(0.7); opacity: 0.4; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="scene">
+    <!-- The glowing crystal structure  -->
+    <div class="crystal">
+      <!-- Top pyramid pieces  -->
+       <div class="face top t1"></div>
+      <div class="face top t2"></div>
+      <div class="face top t3"></div>
+      <div class="face top t4"></div> 
+       <!-- Bottom pyramid pieces  -->
+       <div class="face bottom b1"></div>
+      <div class="face bottom b2"></div>
+      <div class="face bottom b3"></div>
+      <div class="face bottom b4"></div> 
+     </div>
+    <!-- Ambient ground shadow -->
+     <div class="shadow"></div>
+  </div>
+
+</body>
+</html> 
+
+

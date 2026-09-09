@@ -1,0 +1,311 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    
+</head>
+<body>
+    
+    <div id="todo"></div>
+    <script>
+        (function (){
+    let todos=[];
+    
+
+    const todocontainer=document.getElementById("todo");
+    const todoinput=document.createElement("input");
+    todoinput.type="text";
+    todoinput.placeholder="Enter task..."
+    const addbtn=document.createElement("button");
+    addbtn.textContent="ADD";
+    const todolist=document.createElement("div");
+    todolist.style.border="2px solid black"
+    todocontainer.append(todoinput,addbtn,todolist);
+
+   
+
+    function rendertask(task){
+        const todoitem=document.createElement("div");
+        todoitem.style.border="2px solid red";
+        todoitem.style.margin="10px";
+
+        const p=document.createElement("p");
+        p.textContent=task;
+        const deletebtn=document.createElement("button");
+        deletebtn.textContent="Delete";
+        const editbtn=document.createElement("button");
+        editbtn.textContent="Edit";
+        const compbtn=document.createElement("button");
+        compbtn.textContent="Complete";
+        
+        editbtn.addEventListener("click",function(){
+            const editinput=document.createElement("input");
+            editinput.value=task;
+            const savebtn=document.createElement("button");
+            savebtn.textContent="Save";
+            todoitem.prepend(editinput,savebtn);
+            editinput.focus();
+            savebtn.addEventListener("click",function(){
+                const updatedtask=editinput.value;
+                if(!updatedtask){
+                    return;
+                }
+                p.textContent=updatedtask;
+                const index=todos.indexOf(task);
+                todos[index]=updatedtask;
+                editinput.remove();
+                savebtn.remove();
+                console.log(todos);
+            })
+        })
+
+        deletebtn.addEventListener("click",function(){
+            const index=todos.indexOf(task);
+            todos.splice(index,1);
+            todoitem.remove();
+        })
+        compbtn.addEventListener("click",function(){
+            todoitem.style.background="lavender"
+        })
+        todoitem.append(p,deletebtn,editbtn,compbtn);
+        todolist.prepend(todoitem);
+        
+    }
+    function addtodo(){
+        const task=todoinput.value;
+        console.log(task);
+        if(!task){
+            return;
+        }
+        todos.unshift(task);
+     
+        rendertask(task);
+        todoinput.value="";
+        todoinput.focus();
+
+
+    }
+    addbtn.addEventListener("click",addtodo);
+    todoinput.addEventListener("keydown",function(e){
+        // console.log(e);
+        if(e.key==="Enter"){
+            addtodo();
+        }
+    })
+
+})()
+        
+    </script>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo App</title>
+    
+</head>
+<body>
+
+<div id="todo"></div>
+
+<script>
+(function () {
+
+    
+    let todos = JSON.parse(localStorage.getItem("todos")) || [];
+
+    function saveTodos() {
+        localStorage.setItem("todos", JSON.stringify(todos));
+    }
+
+    const todoContainer = document.getElementById("todo");
+
+    
+    const todoInput = document.createElement("input");
+    todoInput.type = "text";
+    todoInput.placeholder = "Enter Task";
+
+    
+    const addBtn = document.createElement("button");
+    addBtn.textContent = "Add";
+
+  
+    const searchInput = document.createElement("input");
+    searchInput.type = "text";
+    searchInput.placeholder = "Search Task";
+    searchInput.style.marginLeft = "10px";
+
+    
+    const todoList = document.createElement("div");
+    todoList.style.border = "2px solid black";
+    todoList.style.marginTop = "15px";
+    todoList.style.padding = "10px";
+
+    todoContainer.append(todoInput, addBtn, searchInput, todoList);
+
+    
+    function renderTask(todo) {
+
+        const todoItem = document.createElement("div");
+        todoItem.style.border = "2px solid red";
+        todoItem.style.padding = "10px";
+        todoItem.style.margin = "10px";
+
+        if (todo.completed) {
+            todoItem.style.backgroundColor = "lightgreen";
+        }
+
+        const p = document.createElement("p");
+        p.textContent = todo.task;
+
+        const editBtn = document.createElement("button");
+        editBtn.textContent = "Edit";
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.textContent = "Delete";
+
+        const completeBtn = document.createElement("button");
+        completeBtn.textContent = todo.completed ? "Undo" : "Complete";
+
+    
+        editBtn.addEventListener("click", function () {
+
+            const editInput = document.createElement("input");
+            editInput.value = todo.task;
+
+            const saveBtn = document.createElement("button");
+            saveBtn.textContent = "Save";
+
+            todoItem.prepend(editInput, saveBtn);
+
+            editInput.focus();
+
+            saveBtn.addEventListener("click", function () {
+
+                const updatedTask = editInput.value.trim();
+
+                if (!updatedTask) return;
+
+                todo.task = updatedTask;
+                saveTodos();
+                displayTodos(getFilteredTodos());
+
+            });
+
+        });
+
+        
+        deleteBtn.addEventListener("click", function () {
+
+            todos = todos.filter(t => t.id !== todo.id);
+
+            saveTodos();
+            displayTodos(getFilteredTodos());
+
+        });
+
+        
+        completeBtn.addEventListener("click", function () {
+
+            todo.completed = !todo.completed;
+
+            saveTodos();
+            displayTodos(getFilteredTodos());
+
+        });
+
+        todoItem.append(
+            p,
+            editBtn,
+            deleteBtn,
+            completeBtn
+        );
+
+        todoList.appendChild(todoItem);
+
+    }
+
+    
+    function displayTodos(list) {
+
+        todoList.innerHTML = "";
+
+        if (list.length === 0) {
+            todoList.innerHTML = "<h3>No Tasks Found</h3>";
+            return;
+        }
+
+        list.forEach(todo => renderTask(todo));
+
+    }
+
+   
+    function addTodo() {
+
+        const task = todoInput.value.trim();
+
+        if (!task) {
+            alert("Enter a task");
+            return;
+        }
+
+        const todo = {
+            id: Date.now(),
+            task: task,
+            completed: false
+        };
+
+        todos.unshift(todo);
+
+        saveTodos();
+
+        todoInput.value = "";
+        todoInput.focus();
+
+        displayTodos(getFilteredTodos());
+
+    }
+
+    
+    function getFilteredTodos() {
+
+        const keyword = searchInput.value.toLowerCase().trim();
+
+        return todos.filter(todo =>
+            todo.task.toLowerCase().includes(keyword)
+        );
+
+    }
+
+    
+    addBtn.addEventListener("click", addTodo);
+
+    
+    todoInput.addEventListener("keydown", function (e) {
+
+        if (e.key === "Enter") {
+            addTodo();
+        }
+
+    });
+
+    searchInput.addEventListener("input", function () {
+
+        displayTodos(getFilteredTodos());
+
+    });
+
+
+    displayTodos(todos);
+
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p>Chitkara</p>
+    <script>
+        localStorage.setItem("name","Sehajpreet");
+        localStorage.setItem("lastname","Kaur");
+        const name=localStorage.getItem("lastname");
+        console.log(typeof(name));
+        const details={
+            name: "Sehajpreet",
+            lastname: "Kaur"
+        }
+        localStorage.setItem("d",details);//[object Object]
+        // local storage saves in form of string that is why [object Object]
+        localStorage.setItem("d",JSON.stringify(details));
+        const getob=localStorage.getItem("d");
+        console.log(getob);
+    </script>
+</body>
+</html>
