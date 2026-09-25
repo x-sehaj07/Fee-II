@@ -60,16 +60,17 @@ function App() {
     
   // );
   return(
-    <BrowserRouter>
-    <Navbar/>
-    <Routes>
-      <Route path="/" element={<Home/>}/>
-      <Route path="/about" element={<About/>}/>
-      <Route path="/products" element={<Products/>}/>
-      <Route path="/login" element={<Login/>}/>
-      <Route path="/products/:id" element={<ProductsDetails/>}/>
-    </Routes>
-    </BrowserRouter>
-  );
+    // <BrowserRouter>
+    // <Navbar/>
+    // <Routes>
+    //   <Route path="/" element={<Home/>}/>
+    //   <Route path="/about" element={<About/>}/>
+    //   <Route path="/products" element={<Products/>}/>
+    //   <Route path="/login" element={<Login/>}/>
+    //   <Route path="/products/:id" element={<ProductsDetails/>}/>
+    // </Routes>
+    // </BrowserRouter>
+    <Products/>
+  )
 } 
 export default App;
