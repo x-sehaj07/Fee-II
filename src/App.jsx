@@ -3,13 +3,19 @@
 // import FormHandling from "./FormHandling";
 // import Hooks from "./Hooks";
 // import Useref from "./Useref";
-import { BrowserRouter,Routes,Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
-import Home from "./components/Home";
-import About from "./components/About";
-import Products from "./components/Products";
-import Login from "./components/Login";
-import ProductDetails from "./components/ProductDetails";
+// import { BrowserRouter,Routes,Route } from "react-router-dom";
+// import Navbar from "./components/Navbar";
+// import Home from "./components/Home";
+// import About from "./components/About";
+// import Products from "./components/Products";
+// import Login from "./components/Login";
+// import ProductDetails from "./components/ProductDetails";
+import {useState} from 'react';
+import Navbar from './StateManagement/Navbar';
+import {UserContext} from "./StateManagement/UserContext";
+import { LoginContext } from './StateManagement/LoginContext';
+import Login from './StateManagement/Login';
+import { ThemeProvider } from './StateManagement/ThemeContext';
 function App() {
   // const products = [
   //   {
@@ -59,18 +65,40 @@ function App() {
   //   </div>
     
   // );
+  // return(
+  //   // <BrowserRouter>
+  //   // <Navbar/>
+  //   // <Routes>
+  //   //   <Route path="/" element={<Home/>}/>
+  //   //   <Route path="/about" element={<About/>}/>
+  //   //   <Route path="/products" element={<Products/>}/>
+  //   //   <Route path="/login" element={<Login/>}/>
+  //   //   <Route path="/products/:id" element={<ProductsDetails/>}/>
+  //   // </Routes>
+  //   // </BrowserRouter>
+  //   <Products/>
+  // )
+  const user={
+    firstname:"kim",
+    lastname:"Jeon"
+  }
+  
+  const password="1234"
   return(
-    // <BrowserRouter>
-    // <Navbar/>
-    // <Routes>
-    //   <Route path="/" element={<Home/>}/>
-    //   <Route path="/about" element={<About/>}/>
-    //   <Route path="/products" element={<Products/>}/>
-    //   <Route path="/login" element={<Login/>}/>
-    //   <Route path="/products/:id" element={<ProductsDetails/>}/>
-    // </Routes>
-    // </BrowserRouter>
-    <Products/>
+    <>
+    <UserContext.Provider value={user}>
+    <h1>App Component</h1>
+    <Navbar/>
+    </UserContext.Provider>
+    <ThemeProvider>
+      <h1>App Component</h1>
+    <Navbar/>
+    </ThemeProvider>
+    <LoginContext.Provider value={password}>
+      <Login/>
+    </LoginContext.Provider>
+    </>
   )
+
 } 
 export default App;
