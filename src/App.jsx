@@ -10,12 +10,17 @@
 // import Products from "./components/Products";
 // import Login from "./components/Login";
 // import ProductDetails from "./components/ProductDetails";
-import {useState} from 'react';
-import Navbar from './StateManagement/Navbar';
-import {UserContext} from "./StateManagement/UserContext";
-import { LoginContext } from './StateManagement/LoginContext';
-import Login from './StateManagement/Login';
-import { ThemeProvider } from './StateManagement/ThemeContext';
+
+// import {useState} from 'react';
+// import Navbar from './StateManagement/Navbar';
+// import {UserContext} from "./StateManagement/UserContext";
+// import { LoginContext } from './StateManagement/LoginContext';
+// import Login from './StateManagement/Login';
+// import { ThemeProvider } from './StateManagement/ThemeContext';
+
+import { useReducer } from "react";
+import CountDisplay from "./Class7oct.jsx/CountDisplay";
+
 function App() {
   // const products = [
   //   {
@@ -78,27 +83,67 @@ function App() {
   //   // </BrowserRouter>
   //   <Products/>
   // )
-  const user={
-    firstname:"kim",
-    lastname:"Jeon"
-  }
-  
-  const password="1234"
-  return(
-    <>
-    <UserContext.Provider value={user}>
-    <h1>App Component</h1>
-    <Navbar/>
-    </UserContext.Provider>
-    <ThemeProvider>
-      <h1>App Component</h1>
-    <Navbar/>
-    </ThemeProvider>
-    <LoginContext.Provider value={password}>
-      <Login/>
-    </LoginContext.Provider>
-    </>
-  )
 
-} 
-export default App;
+
+  // const user={
+  //   firstname:"kim",
+  //   lastname:"Jeon"
+  // }
+  
+  // const password="1234"
+  // return(
+  //   <>
+  //   <UserContext.Provider value={user}>
+  //   <h1>App Component</h1>
+  //   <Navbar/>
+  //   </UserContext.Provider>
+  //   <ThemeProvider>
+  //     <h1>App Component</h1>
+  //   <Navbar/>
+  //   </ThemeProvider>
+  //   <LoginContext.Provider value={password}>
+  //     <Login/>
+  //   </LoginContext.Provider>
+  //   </>
+  // )
+  
+
+  // const[count,setCount]=useState(0);
+  //   function handleIncre(){
+  //       setCount(count+1);
+  //   }
+  //   function handleDecre(){
+  //       setCount(count-1);
+  //   }
+
+
+    function reducer(state,action){
+      switch(action.type){
+          case "increment" :
+            return state+action.data;
+          
+          case "decrement":
+            return state-1;
+          
+          case "double" :
+            return state*2;
+          default:
+          return state;
+      }
+    }
+    const [count, dispatch] = useReducer(reducer, 0);
+    return(
+        <>
+        
+        <h1>Counter component</h1>
+        <h2> count: {count}</h2>
+        {/* <button onClick={handleIncre}>Increment</button>
+        <button onClick={handleDecre}>Decrement</button> */}
+        <button onClick={()=> dispatch({type:"increment",data:10})}>increase</button>
+        <button onClick={()=> dispatch({type:"decrement"})}>decrease</button>
+        <CountDisplay dispatch={dispatch}  />
+        </>
+      )
+
+}
+export default App; 
