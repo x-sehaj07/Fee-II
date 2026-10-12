@@ -18,8 +18,9 @@
 // import Login from './StateManagement/Login';
 // import { ThemeProvider } from './StateManagement/ThemeContext';
 
-import { useReducer } from "react";
+import { useReducer, useState } from "react";
 import CountDisplay from "./Class7oct.jsx/CountDisplay";
+import Input from "./Input";
 
 function App() {
   // const products = [
@@ -132,6 +133,39 @@ function App() {
       }
     }
     const [count, dispatch] = useReducer(reducer, 0);
+    
+    const[formdata,setFormdata]=useState({
+      email:"",
+      password:"",
+      age:0
+    })
+    const[error,setError]=useState({});
+    function validation(){
+      const newErrors={};
+      if(!formdata.email.trim()){
+        newErrors.email="Email is required"
+      }
+      if(!formdata.password.trim()){
+        newErrors.password="Password is required"
+      }
+      if(!formdata.email.trim().length<8){
+        newErrors.email="Email must contain more than 8 characters "
+      }
+    }
+    function handleChange(e){   
+      const {name,value}=e.target; 
+      setFormdata({
+        ...formdata,
+        [name]:value
+      })
+      
+    }
+    
+    function handleSubmit(e){
+      e.preventDefault();
+      console.log(formdata);
+    }
+    
     return(
         <>
         
@@ -142,8 +176,21 @@ function App() {
         <button onClick={()=> dispatch({type:"increment",data:10})}>increase</button>
         <button onClick={()=> dispatch({type:"decrement"})}>decrease</button>
         <CountDisplay dispatch={dispatch}  />
+        <form onSubmit={handleSubmit}>
+          {/* <label>Email:</label>
+          <input type="email" name="email" value={formdata.email} onChange={handleChange}/>
+          <label>Password:</label>
+          <input type="password" name="password" value={formdata.password} onChange={handleChange}/>
+          <label>Age:</label>
+          <input type="number" name="age" onChange={handleChange} value={formdata.age} min={10} max={100}/> */}
+          <Input label="Email" name="email" type="email" placeholder="Enter your Email" value={formdata.email} onChange={handleChange} required/>
+          <Input label="Password" name="password" type="password" placeholder="Enter your password" value={formdata.password} onChange={handleChange}/>
+          <Input label="Age" name="age" type="number" placeholder="" value={formdata.age} onChange={handleChange} min={10} max={100}/>
+          
+          <button type="submit">Submit</button>
+        </form>
         </>
       )
 
 }
-export default App; 
+export default App;  
