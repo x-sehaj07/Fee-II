@@ -1,0 +1,7 @@
+.tabs.button{
+
+}
+.tabs button.active{
+    border-bottom-color: blue;
+
+}

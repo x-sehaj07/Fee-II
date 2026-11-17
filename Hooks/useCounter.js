@@ -10,4 +10,4 @@ function useCounter(){
     }
     return {count,increment,decrement}
 }
-export default useCounter;
+export default useCounter;c
